@@ -1,0 +1,27 @@
+﻿@typeparam TItem
+
+<div class="btn-group" role="group">
+    @for (int i = 0; i < Items.Count; i++)
+    {
+        var item = Items[i];
+        var id = $"item{i + 1}";
+        <button type="button" class="btn btn-outline-primary" id="@id">@DisplayItem(item)</button>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public IList<TItem> Items { get; set; }
+
+    [Parameter]
+    public string Format { get; set; }
+
+    public virtual string DisplayItem(TItem item)
+    {
+        if (item is IFormattable i)
+        {
+            return i.ToString(Format, System.Globalization.CultureInfo.CurrentCulture);
+        }
+        return item.ToString();
+    }
+}

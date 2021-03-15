@@ -1,0 +1,37 @@
+﻿<form>
+    <CascadingValue Value=this>
+        @ChildContent
+    </CascadingValue>
+    <button class="btn btn-secondary" @onclick="@Clear">Clear</button>
+    <button class="btn btn-primary" @onclick="@Search">Search</button>
+</form>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback OnFilter { get; set; }
+
+    [Parameter]
+    public EventCallback OnReset { get; set; }
+
+    private List<FilterBase> childFilters = new List<FilterBase>();
+
+    async Task Clear()
+    {
+        childFilters.ForEach(f => f.Clear());
+        await OnReset.InvokeAsync();
+    }
+
+    async Task Search()
+    {
+        childFilters.ForEach(f => f.Submit());
+        await OnFilter.InvokeAsync();
+    }
+
+    public void AddChild(FilterBase filter)
+    {
+        childFilters.Add(filter);
+    }
+}

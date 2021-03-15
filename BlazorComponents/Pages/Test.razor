@@ -1,0 +1,48 @@
+﻿@page "/"
+@using BlazorComponents.Data
+@using System.Runtime.CompilerServices
+
+@*<RadioComponent Items="items" />*@
+
+@*<FilterList OnFilter="@Filter" OnReset="@Reset">
+    <FilterText Name="@nameof(filter.AccountNumber)" @bind-Field="@filter.AccountNumber"></FilterText>
+    <FilterDate Name="@nameof(filter.NotExportedSince)" @bind-Field="@filter.NotExportedSince"></FilterDate>
+</FilterList>*@
+
+<EditForm Model="filter" OnValidSubmit="@Filter">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="accountNumber">Account Number</label>
+        <InputText id="accountNumber" class="form-control" @bind-Value="filter.AccountNumber" />
+    </div>
+    <div class="form-group">
+        <label for="notExpiredSince">Not Expired Since</label>
+        <InputDate id="notExpiredSince" class="form-control" @bind-Value="filter.NotExportedSince" />
+    </div>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+    private List<string> items;
+    private WholesalerAccountsFilter filter;
+
+    protected override void OnInitialized()
+    {
+        items = new List<string> { "First", "Second" };
+        filter = new WholesalerAccountsFilter();
+    }
+
+    async Task Filter()
+    {
+        // TODO
+    }
+
+    async Task Reset()
+    {
+        // TODO
+    }
+
+}
